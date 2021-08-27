@@ -3,6 +3,8 @@ export interface ICityInfo {
     state: string;
     state_code: string;
     country: string;
+    country_code: string;
+    continent: string;
     drive_on: string;
     speed_in: string;
     currency_name: string;

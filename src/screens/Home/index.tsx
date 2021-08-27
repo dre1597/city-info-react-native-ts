@@ -1,56 +1,76 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { styles } from './styles';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View, ActivityIndicator } from 'react-native';
 import { theme } from '../../globals/styles/theme';
-import { fetchCityInfo, getUserLocation } from '../../utils';
+import { ICityInfo, ILocation } from '../../interfaces';
+import { styles } from './styles';
+import { getUserLocation } from '../../utils';
+import { useDispatch, useSelector } from 'react-redux';
+import SearchIcon from '../../components/SearchIcon';
 import { API_KEY } from '@env';
-import { useDispatch } from 'react-redux';
-import { cityInfoActions } from '../../store/cityInfo';
-import { ICityInfo } from '../../interfaces';
+import CityDetails from '../../components/CityDetails';
+import CityInfo from '../../components/CityInfo';
 
 const BASE_URL = 'https://api.opencagedata.com/geocode/v1/json?';
 
-const Home = () => {
+const HomeScreen: React.FC = () => {
+    const [errorMessage, setErrorMessage] = useState<string>();
+    const [currentCity, setCurrentCity] = useState<ICityInfo>();
+    const getCurrentCity = useSelector((state: any) => state.cityInfo);
+    const currentCityRef = useRef<ICityInfo | undefined>();
     const dispatch = useDispatch();
-    const navigation = useNavigation();
 
-    const load = async () => {
-        const userLocation = await getUserLocation();
-
-        const { latitude, longitude } = userLocation;
-
-        const url = `${BASE_URL}q=${latitude}+${longitude}&key=${API_KEY}&pretty=1`;
-
-        const data: ICityInfo = await fetchCityInfo(url);
-
-        dispatch(cityInfoActions.setCurrentCity(data));
-    };
+    console.log(currentCity);
 
     useEffect(() => {
-        load();
-    }, [load]);
+        if (getCurrentCity) {
+            currentCityRef.current = getCurrentCity;
+        }
+        if (currentCityRef.current) {
+            setCurrentCity(currentCityRef.current);
+        }
+    }, [getCurrentCity]);
 
-    const searchInHandler = () => {
-        navigation.navigate('Search');
-    };
-
-    return (
-        <View style={styles.container}>
-            <StatusBar style='auto' />
-            <Text>Home page</Text>
-            <View>
-                <Ionicons
-                    onPress={searchInHandler}
-                    name='search'
-                    size={24}
+    if (currentCity && currentCity.city !== '') {
+        return (
+            <View style={styles.container}>
+                <StatusBar style='auto' />
+                <View style={styles.main}>
+                    <SearchIcon />
+                    <CityInfo currentCity={currentCity} />
+                </View>
+                <CityDetails currentCity={currentCity} />
+            </View>
+        );
+    } else if (currentCity && currentCity.city === '') {
+        return (
+            <View style={styles.container}>
+                <SearchIcon />
+                <Text style={{ textAlign: 'center' }}>
+                    Please search for a location
+                </Text>
+                <StatusBar style='auto' />
+            </View>
+        );
+    } else if (errorMessage) {
+        return (
+            <View style={styles.container}>
+                <SearchIcon />
+                <Text style={{ textAlign: 'center' }}>{errorMessage}</Text>
+                <StatusBar style='auto' />
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                <Text>{errorMessage}</Text>
+                <ActivityIndicator
+                    size='large'
                     color={theme.colors.PRIMARY_COLOR}
                 />
             </View>
-        </View>
-    );
+        );
+    }
 };
 
-export default Home;
+export default HomeScreen;

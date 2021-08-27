@@ -6,10 +6,12 @@ const initialCityInfoState: ICityInfo = {
     state: '',
     state_code: '',
     country: '',
+    country_code: '',
     drive_on: '',
     speed_in: '',
     currency_name: '',
     currency_symbol: '',
+    continent: '',
 };
 
 const cityInfoSlice = createSlice({
@@ -23,6 +25,8 @@ const cityInfoSlice = createSlice({
                 state.state = newCity.state;
                 state.state_code = newCity.state_code;
                 state.country = newCity.country;
+                state.country_code = newCity.country_code;
+                state.continent = newCity.continent;
                 state.drive_on = newCity.drive_on;
                 state.speed_in = newCity.speed_in;
                 state.currency_name = newCity.currency_name;
