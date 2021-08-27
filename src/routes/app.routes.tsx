@@ -10,13 +10,20 @@ const Stack = createStackNavigator();
 const AppRoutes: React.FC = () => {
     return (
         <Stack.Navigator
-            headerMode='none'
             screenOptions={{
                 cardStyle: { backgroundColor: 'transparent' },
             }}
         >
-            <Stack.Screen name='Home' component={Home} />
-            <Stack.Screen name='Search' component={Search} />
+            <Stack.Screen
+                name='Home'
+                component={Home}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='Search'
+                component={Search}
+                options={{ headerLeft: () => null }}
+            />
         </Stack.Navigator>
     );
 };
