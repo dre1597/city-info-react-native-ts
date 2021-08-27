@@ -5,10 +5,11 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../../globals/styles/theme';
-import { getUserLocation } from '../../utils';
+import { fetchCityInfo, getUserLocation } from '../../utils';
 import { API_KEY } from '@env';
 import { useDispatch } from 'react-redux';
 import { cityInfoActions } from '../../store/cityInfo';
+import { ICityInfo } from '../../interfaces';
 
 const BASE_URL = 'https://api.opencagedata.com/geocode/v1/json?';
 
@@ -23,31 +24,9 @@ const Home = () => {
 
         const url = `${BASE_URL}q=${latitude}+${longitude}&key=${API_KEY}&pretty=1`;
 
-        const response = await fetch(url);
+        const data: ICityInfo = await fetchCityInfo(url);
 
-        const data = await response.json();
-
-        const results = data.results[0];
-
-        const {
-            components: { city, state, country, country_code, continent },
-            annotations: {
-                roadinfo: { drive_on, speed_in },
-                currency: { name, symbol },
-            },
-        } = results;
-
-        dispatch(
-            cityInfoActions.setCurrentCity({
-                city,
-                state,
-                country,
-                drive_on,
-                speed_in,
-                currency_name: name,
-                currency_symbol: symbol,
-            })
-        );
+        dispatch(cityInfoActions.setCurrentCity(data));
     };
 
     useEffect(() => {

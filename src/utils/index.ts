@@ -34,7 +34,7 @@ export const fetchCityInfo = async (url: string): Promise<ICityInfo> => {
 
     if (response.ok) {
         const {
-            components: { city, state, country },
+            components: { city, state, country, state_code },
             annotations: {
                 roadinfo: { drive_on, speed_in },
                 currency: { name, symbol },
@@ -44,6 +44,7 @@ export const fetchCityInfo = async (url: string): Promise<ICityInfo> => {
         return {
             city,
             state,
+            state_code,
             country,
             drive_on,
             speed_in,

@@ -1,15 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import Previous from '../../components/Previous';
+import SearchForm from '../../components/SearchForm';
 import { styles } from './styles';
 
-const Search = () => {
+const SearchScreen: React.FC = () => {
     return (
         <View style={styles.container}>
-            <StatusBar style='auto' />
-            <Text>Search page</Text>
+            <SearchForm />
+            <Previous />
         </View>
     );
 };
 
-export default Search;
+export default SearchScreen;

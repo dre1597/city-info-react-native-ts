@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const initialCityInfoState: ICityInfo = {
     city: '',
     state: '',
+    state_code: '',
     country: '',
     drive_on: '',
     speed_in: '',
@@ -20,6 +21,7 @@ const cityInfoSlice = createSlice({
                 const newCity = action.payload;
                 state.city = newCity.city;
                 state.state = newCity.state;
+                state.state_code = newCity.state_code;
                 state.country = newCity.country;
                 state.drive_on = newCity.drive_on;
                 state.speed_in = newCity.speed_in;
