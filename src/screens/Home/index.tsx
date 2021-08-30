@@ -10,6 +10,7 @@ import SearchIcon from '../../components/SearchIcon';
 import { API_KEY } from '@env';
 import CityDetails from '../../components/CityDetails';
 import CityInfo from '../../components/CityInfo';
+import ReloadIcon from '../../components/ReloadIcon';
 
 const BASE_URL = 'https://api.opencagedata.com/geocode/v1/json?';
 
@@ -34,6 +35,7 @@ const HomeScreen: React.FC = () => {
         <StatusBar style='auto' />
         <View style={styles.main}>
           <SearchIcon />
+          <ReloadIcon />
           <CityInfo currentCity={currentCity} />
         </View>
         <CityDetails currentCity={currentCity} />
@@ -53,6 +55,7 @@ const HomeScreen: React.FC = () => {
     return (
       <View style={styles.container}>
         <SearchIcon />
+        <ReloadIcon />
         <Text style={styles.error}>{errorMessage}</Text>
         <StatusBar style='auto' />
       </View>

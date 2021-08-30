@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  searchIcon: {
+  reloadIcon: {
     position: 'absolute',
     top: 50,
-    left: 20,
+    right: 20,
   },
 });
