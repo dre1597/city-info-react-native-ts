@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  searchIcon: {
-    position: 'absolute',
-    top: 50,
-    right: 20,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
